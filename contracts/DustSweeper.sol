@@ -69,21 +69,15 @@ contract DustSweeper is Ownable {
     payable(protocolWallet).transfer(totalNativeAmount * protocolFee / 10**4);
   }
 
-  function setTakerFee(
-    uint256 _takerFee
-  ) external onlyOwner {
+  function setTakerFee(uint256 _takerFee) external onlyOwner {
     takerFee = _takerFee;
   }
 
-  function setProtocolFee(
-    uint256 _protocolFee
-  ) external onlyOwner {
+  function setProtocolFee(uint256 _protocolFee) external onlyOwner {
     protocolFee = _protocolFee;
   }
 
-  function setTokenDrop(
-    uint256 _tokenDrop
-  ) external onlyOwner {
+  function setTokenDrop(uint256 _tokenDrop) external onlyOwner {
     tokenDrop = _tokenDrop;
   }
 
@@ -91,14 +85,13 @@ contract DustSweeper is Ownable {
    * Returns the latest price from Chainlink
    */
   function getPrice(address base, address quote) public view returns (int256) {
-    int256 price = 1000000000000000; // .001 tokens/ETH
-    // (
-    //   uint80 roundID,
-    //   int256 price,
-    //   uint startedAt,
-    //   uint timeStamp,
-    //   uint80 answeredInRound
-    // ) = FeedRegistryInterface(chainLinkRegistry).latestRoundData(base, quote);
+    (
+    uint80 roundID,
+    int256 price,
+    uint256 startedAt,
+    uint256 timeStamp,
+    uint80 answeredInRound
+    ) = FeedRegistryInterface(chainLinkRegistry).latestRoundData(base, quote);
     return price;
   }
 
