@@ -29,8 +29,8 @@ contract DustSweeper is Ownable {
     address _chainLinkRegistry,
     address _protocolWallet,
     address _protocolToken,
-    uint256 _takerFee,
-    uint256 _protocolFee,
+    uint8 _takerFee,
+    uint8 _protocolFee,
     uint256 _tokenDrop
   ) {
     chainLinkRegistry = _chainLinkRegistry;
@@ -45,55 +45,28 @@ contract DustSweeper is Ownable {
     address[] calldata makers,
     address[] calldata tokenAddresses
   ) external payable {
+
     uint256 totalNativeAmount = 0;
     for (uint256 i = 0; i < makers.length; i++) {
       // Amount of Tokens to transfer
-      uint256 allowance = IERC20(tokenAddresses[i]).allowance(
-        makers[i],
-        address(this)
-      );
+      uint256 allowance = IERC20(tokenAddresses[i]).allowance(makers[i], address(this));
 
       // Equivalent amount of Native Tokens
-      uint256 nativeAmt = (allowance *
-        uint256(getPrice(tokenAddresses[i], quoteETH))) / 10**18;
+      uint256 nativeAmt = allowance * uint256(getPrice(tokenAddresses[i], quoteETH)) / 10**18;
       totalNativeAmount = totalNativeAmount + nativeAmt;
 
       // Amount of Native Tokens to transfer
-      uint256 distribution = (nativeAmt * (10**4 - (takerFee + protocolFee))) /
-        10**4;
+      uint256 distribution = nativeAmt * ( 10**4 - ( takerFee + protocolFee) ) / 10**4;
 
       // Taker sends Native Token to Maker
       payable(makers[i]).transfer(distribution);
 
       // DustSweeper sends Maker's tokens to Taker
-      IERC20(tokenAddresses[i]).transferFrom(makers[i], msg.sender, allowance);
+      IERC20(tokenAddresses[i]).transferFrom(makers[i], msg.sender, allowance );
     }
 
     // Taker sends Native Token to Protocol
-    payable(protocolWallet).transfer((totalNativeAmount * protocolFee) / 10**4);
-  }
-
-  function estimateSweepCost(
-    address[] calldata makers,
-    address[] calldata tokenAddresses
-  ) external {
-    uint256 totalNativeAmount = 0;
-    for (uint256 i = 0; i < makers.length; i++) {
-      // Amount of Tokens to transfer
-      uint256 allowance = IERC20(tokenAddresses[i]).allowance(
-        makers[i],
-        address(this)
-      );
-
-      // Equivalent amount of Native Tokens
-      uint256 nativeAmt = (allowance *
-        uint256(getPrice(tokenAddresses[i], quoteETH))) / 10**18;
-      totalNativeAmount = totalNativeAmount + nativeAmt;
-
-      // Amount of Native Tokens to transfer
-      uint256 distribution = (nativeAmt * (10**4 - (takerFee + protocolFee))) /
-        10**4;
-    }
+    payable(protocolWallet).transfer(totalNativeAmount * protocolFee / 10**4);
   }
 
   function setTakerFee(uint256 _takerFee) external onlyOwner {
@@ -113,12 +86,13 @@ contract DustSweeper is Ownable {
    */
   function getPrice(address base, address quote) public view returns (int256) {
     (
-      uint80 roundID,
-      int256 price,
-      uint256 startedAt,
-      uint256 timeStamp,
-      uint80 answeredInRound
+    uint80 roundID,
+    int256 price,
+    uint256 startedAt,
+    uint256 timeStamp,
+    uint80 answeredInRound
     ) = FeedRegistryInterface(chainLinkRegistry).latestRoundData(base, quote);
     return price;
   }
+
 }
