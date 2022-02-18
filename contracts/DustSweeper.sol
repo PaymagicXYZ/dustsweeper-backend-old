@@ -45,7 +45,7 @@ contract DustSweeper is Ownable {
     address[] calldata makers,
     address[] calldata tokenAddresses
   ) external payable {
-
+    uint256 ethSent = msg.value;
     uint256 totalNativeAmount = 0;
     for (uint256 i = 0; i < makers.length; i++) {
       // Amount of Tokens to transfer
@@ -60,13 +60,21 @@ contract DustSweeper is Ownable {
 
       // Taker sends Native Token to Maker
       payable(makers[i]).transfer(distribution);
+      ethSent -= distribution;
 
       // DustSweeper sends Maker's tokens to Taker
       IERC20(tokenAddresses[i]).transferFrom(makers[i], msg.sender, allowance );
     }
 
     // Taker sends Native Token to Protocol
-    payable(protocolWallet).transfer(totalNativeAmount * protocolFee / 10**4);
+    uint256 protocolFee = totalNativeAmount * protocolFee / 10**4;
+    ethSent -= protocolFee;
+    payable(protocolWallet).transfer(protocolFee);
+
+    // Pay any overage back to msg.sender
+    if (ethSent > 0) {
+      payable(msg.sender).transfer(ethSent);
+    }
   }
 
   function setTakerFee(uint256 _takerFee) external onlyOwner {
