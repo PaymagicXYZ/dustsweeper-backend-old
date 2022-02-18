@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require("@nomiclabs/hardhat-ethers");
 require('dotenv').config();
 
 /**
@@ -9,7 +10,7 @@ module.exports = {
   networks: {
     kovan: {
       url: `https://kovan.infura.io/v3/${process.env.INFURA_ID}`,
-      accounts: [process.env.PRIVATE_KEY],
+      accounts: [process.env.PK_ACCOUNT1, process.env.PK_ACCOUNT2, process.env.PK_ACCOUNT3],
     },
   },
 };
