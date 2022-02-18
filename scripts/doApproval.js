@@ -8,24 +8,25 @@ async function main() {
             tokenAddress: addressHelper.linkTokenAddress,
             approve: "3000000000000000000"
         },
-        {
-            tokenAddress: addressHelper.zrxTokenAddress,
-            approve: "50000000000000000000"
-        },
+        // {
+        //     tokenAddress: addressHelper.zrxTokenAddress,
+        //     approve: "50000000000000000000"
+        // },
         {
             tokenAddress: addressHelper.batTokenAddress,
             approve: "30000000000000000000"
-        },
+        }
     ]
 
     for (let i = 0;i < accounts.length;i++) {
         for (let a = 0;a < approvals.length;a++) {
             const tokenContract = await ethers.getContractAt("IERC20", approvals[a].tokenAddress);
             // Approve
-            await tokenContract.connect(accounts[i]).approve(
+            const approveTx = await tokenContract.connect(accounts[i]).approve(
                 addressHelper.contractAddress,
                 approvals[a].approve
             );
+            await approveTx.wait();
             // Allowance
             const allowance = await tokenContract.connect(accounts[i]).allowance(
                 accounts[i].address,

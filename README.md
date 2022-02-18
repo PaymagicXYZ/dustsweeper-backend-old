@@ -1,15 +1,12 @@
-# Basic Sample Hardhat Project
+## Backend usage
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+### Deploy if necessary
 
-Try running some of the following tasks:
+1) `npx hardhat run --network kovan scripts/deploy.js`
+2) Copy generated `contractAddress` into `scripts/addressHelper.js`
+### Sweep Dust
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+1) If approval needed adjust settings in `scripts/doApproval.js:
+2) `npx hardhat run --network kovan scripts/doApproval.js`
+3) Adjust settings in `scripts/sweepDust.js`
+4) `npx hardhat run --network kovan scripts/sweepDust.js`

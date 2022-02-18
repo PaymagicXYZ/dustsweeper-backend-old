@@ -12,5 +12,9 @@ module.exports = {
       url: `https://kovan.infura.io/v3/${process.env.INFURA_ID}`,
       accounts: [process.env.PK_ACCOUNT1, process.env.PK_ACCOUNT2, process.env.PK_ACCOUNT3],
     },
+    rinkeby: {
+      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_ID}`,
+      accounts: [process.env.PK_ACCOUNT1, process.env.PK_ACCOUNT2, process.env.PK_ACCOUNT3],
+    },
   },
 };
