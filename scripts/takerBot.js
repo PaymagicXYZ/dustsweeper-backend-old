@@ -1,8 +1,8 @@
 const addressHelper = require("./addressHelper");
-//const tokenList = require("./tokenList");
-const tokenList = require("./tokenListKovan");
+const tokenList = require("./tokenList");
+// const tokenList = require("./tokenListKovan");
 
-const makerThreshold = 9;
+const makerThreshold = 1;
 
 async function main() {
     let makers = [];
@@ -12,7 +12,10 @@ async function main() {
     for (let i =0;i < tokenList.tokens.length;i++) {
         const Contract = await ethers.getContractAt("IERC20", tokenList.tokens[i].address);
 
+        console.log(Contract)
+
         Contract.on('Approval', async (owner, spender, value) => {
+            console.log('here')
             if (spender === addressHelper.contractAddress) {
                 console.log(`:::${tokenList.tokens[i].symbol}::: CONTRACT APPROVAL`);
                 makers.push(owner);

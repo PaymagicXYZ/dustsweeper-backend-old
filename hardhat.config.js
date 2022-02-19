@@ -18,7 +18,10 @@ module.exports = {
       accounts: [process.env.PK_ACCOUNT1, process.env.PK_ACCOUNT2, process.env.PK_ACCOUNT3],
     },
     hardhat: {
-      chainId: 1
-    },
+      forking: {
+        chainId: 1337,
+        url: "http://127.0.0.1:8545"
+      }
+    }
   },
 };
