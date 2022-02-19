@@ -8,10 +8,10 @@ async function main() {
             tokenAddress: addressHelper.linkTokenAddress,
             approve: "3000000000000000000"
         },
-        // {
-        //     tokenAddress: addressHelper.zrxTokenAddress,
-        //     approve: "50000000000000000000"
-        // },
+        {
+            tokenAddress: addressHelper.zrxTokenAddress,
+            approve: "50000000000000000000"
+        },
         {
             tokenAddress: addressHelper.batTokenAddress,
             approve: "30000000000000000000"
