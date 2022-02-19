@@ -10,10 +10,7 @@ async function main() {
         accounts[2].address
     ];
     const tokens = [
-        addressHelper.linkTokenAddress,
-        addressHelper.linkTokenAddress,
-        addressHelper.batTokenAddress,
-        addressHelper.batTokenAddress
+        addressHelper.keep3rTokenAddress,
     ];
 
     const dustSweeper = await ethers.getContractAt("DustSweeper", addressHelper.contractAddress);

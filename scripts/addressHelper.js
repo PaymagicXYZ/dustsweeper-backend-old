@@ -1,7 +1,5 @@
 module.exports = {
-    contractAddress: "0xa69fe4793c6bB16D4833CC86bFAAC28DBB2AE9bf",
+    contractAddress: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
     protocolWallet: "0xD36DDB951531ab346350F742F2f9BCE9160C61d0",
-    linkTokenAddress: "0xa36085F69e2889c224210F603D836748e7dC0088",
-    zrxTokenAddress: "0x162c44e53097e7B5aaE939b297ffFD6Bf90D1EE3",
-    batTokenAddress:"0x482dC9bB08111CB875109B075A40881E48aE02Cd"
+    keep3rTokenAddress: "0x1ceb5cb57c4d4e2b2433641b95dd330a33185a44",
 };

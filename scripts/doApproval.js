@@ -5,17 +5,9 @@ async function main() {
 
     const approvals = [
         {
-            tokenAddress: addressHelper.linkTokenAddress,
+            tokenAddress: addressHelper.keep3rTokenAddress,
             approve: "3000000000000000000"
         },
-        {
-            tokenAddress: addressHelper.zrxTokenAddress,
-            approve: "50000000000000000000"
-        },
-        {
-            tokenAddress: addressHelper.batTokenAddress,
-            approve: "30000000000000000000"
-        }
     ]
 
     for (let i = 0;i < accounts.length;i++) {
