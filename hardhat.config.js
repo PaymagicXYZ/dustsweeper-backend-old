@@ -18,7 +18,10 @@ module.exports = {
       accounts: [process.env.PK_ACCOUNT1, process.env.PK_ACCOUNT2, process.env.PK_ACCOUNT3],
     },
     hardhat: {
-      chainId: 1
+      forking: {
+        url: "https://eth-mainnet.alchemyapi.io/v2/kcJtCHa4cwFVzchsBeY30JBpXkuV4lzA",
+      },
+      chainId: 1337
     },
   },
 };
