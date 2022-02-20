@@ -41,6 +41,12 @@ async function main() {
 }
 
 async function sweepDust(makers, tokens, tokenValues) {
+    // // Impersonate account for mainnet fork testing
+    // await hre.network.provider.request({
+    //     method: "hardhat_impersonateAccount",
+    //     params: ["0xdFB903169914a9F96Fa1eF7251fFD5D1Ab12B652"],
+    // });
+    // const signer = await ethers.getSigner("0xdFB903169914a9F96Fa1eF7251fFD5D1Ab12B652")
     const dustSweeper = await ethers.getContractAt("DustSweeper", addressHelper.contractAddress);
     // Need to estimate the value of these to get proper value - set to .25 ETH for now
     const sweepTx = await dustSweeper.sweepDust(makers, tokens, {value: "250000000000000000"});

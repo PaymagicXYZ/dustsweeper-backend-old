@@ -19,7 +19,7 @@ module.exports = {
     },
     hardhat: {
       forking: {
-        url: "https://eth-mainnet.alchemyapi.io/v2/kcJtCHa4cwFVzchsBeY30JBpXkuV4lzA",
+        url: "https://eth-mainnet.alchemyapi.io/v2/kcJtCHa4cwFVzchsBeY30JBpXkuV4lzA"
       },
       chainId: 1337
     },
