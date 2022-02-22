@@ -14,7 +14,7 @@ async function main() {
 
         Contract.on('Approval', async (owner, spender, value) => {
             //console.log(`Approval Found -- owner: ${owner}, spender: ${spender}, value: ${value}`);
-            if (spender === addressHelper.contractAddress) {
+            if (spender === addressHelper.contractAddress && value > 0) {
                 console.log(`:::${tokenList.tokens[i].symbol}::: CONTRACT APPROVAL`);
                 makers.push(owner);
                 tokens.push(tokenList.tokens[i].address);

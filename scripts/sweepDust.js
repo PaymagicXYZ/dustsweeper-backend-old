@@ -4,16 +4,16 @@ async function main() {
     const accounts = await ethers.getSigners();
 
     const makers = [
-        accounts[1].address,
-        accounts[2].address,
-        accounts[1].address,
-        accounts[2].address
+        accounts[1].address
+        // accounts[2].address,
+        // accounts[1].address,
+        // accounts[2].address
     ];
     const tokens = [
-        addressHelper.linkTokenAddress,
-        addressHelper.linkTokenAddress,
-        addressHelper.batTokenAddress,
-        addressHelper.batTokenAddress
+        addressHelper.linkTokenAddress
+        // addressHelper.linkTokenAddress,
+        // addressHelper.batTokenAddress,
+        // addressHelper.batTokenAddress
     ];
 
     const dustSweeper = await ethers.getContractAt("DustSweeper", addressHelper.contractAddress);

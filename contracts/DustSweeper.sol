@@ -6,6 +6,8 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/FeedRegistryInterface.sol";
 import "@chainlink/contracts/src/v0.8/Denominations.sol";
 
+import "hardhat/console.sol";
+
 contract DustSweeper is Ownable {
   using SafeERC20 for IERC20;
 
@@ -29,8 +31,8 @@ contract DustSweeper is Ownable {
     address _chainLinkRegistry,
     address _protocolWallet,
     address _protocolToken,
-    uint8 _takerFee,
-    uint8 _protocolFee,
+    uint256 _takerFee,
+    uint256 _protocolFee,
     uint256 _tokenDrop
   ) {
     chainLinkRegistry = _chainLinkRegistry;
@@ -53,10 +55,12 @@ contract DustSweeper is Ownable {
 
       // Equivalent amount of Native Tokens
       uint256 nativeAmt = allowance * uint256(getPrice(tokenAddresses[i], quoteETH)) / 10**18;
+      console.log("nativeAmount: ", nativeAmt);
       totalNativeAmount = totalNativeAmount + nativeAmt;
 
       // Amount of Native Tokens to transfer
       uint256 distribution = nativeAmt * ( 10**4 - ( takerFee + protocolFee) ) / 10**4;
+      console.log("distribution: ", distribution);
 
       // Taker sends Native Token to Maker
       payable(makers[i]).transfer(distribution);
@@ -67,12 +71,12 @@ contract DustSweeper is Ownable {
     }
 
     // Taker sends Native Token to Protocol
-    uint256 protocolFee = totalNativeAmount * protocolFee / 10**4;
-    ethSent -= protocolFee;
-    payable(protocolWallet).transfer(protocolFee);
+    uint256 dustFee = totalNativeAmount * protocolFee / 10**4;
+    ethSent -= dustFee;
+    payable(protocolWallet).transfer(dustFee);
 
     // Pay any overage back to msg.sender
-    if (ethSent > 0) {
+    if (ethSent > 2300) {
       payable(msg.sender).transfer(ethSent);
     }
   }
@@ -93,13 +97,13 @@ contract DustSweeper is Ownable {
    * Returns the latest price from Chainlink
    */
   function getPrice(address base, address quote) public view returns (int256) {
-    (
-    uint80 roundID,
-    int256 price,
-    uint256 startedAt,
-    uint256 timeStamp,
-    uint80 answeredInRound
-    ) = FeedRegistryInterface(chainLinkRegistry).latestRoundData(base, quote);
+        (
+        uint80 roundID,
+        int256 price,
+        uint256 startedAt,
+        uint256 timeStamp,
+        uint80 answeredInRound
+        ) = FeedRegistryInterface(chainLinkRegistry).latestRoundData(base, quote);
     return price;
   }
 
